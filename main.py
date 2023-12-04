@@ -14,6 +14,7 @@ from PIL import Image
 #  5   AttributesIds  206410 non-null  object
 
 output_file = "output"
+os.makedirs(output_file, exist_ok=True)
 path = 'imaterialist-fashion-2020-fgvc7'
 image_path = os.path.join(path, "train")
 csv_path = os.path.join(path, "train.csv")

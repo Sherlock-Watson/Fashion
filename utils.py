@@ -1,4 +1,6 @@
 import numpy as np
+from PIL import Image
+
 
 # col_img_id = 'ImageId'
 # mask_rle = 'EncodedPixels'
@@ -31,13 +33,39 @@ def rle_decode(param_mask_rle, shape):
     return img.reshape(shape)
 
 
-# 示例
-# param_mask_rle = "1 3 10 5 20 2"  # 替换为实际的RLE格式字符串
-# image_shape = (256, 256)  # 替换为实际图像的形状
-#
-# # 解码RLE格式的掩码
-# decoded_mask = rle_decode(param_mask_rle, image_shape)
-#
-# # 可以选择使用Pillow库将二进制掩码数组保存为图像文件
-# mask_image = Image.fromarray(decoded_mask * 255)  # 乘以255将二进制数组转换为灰度图像
-# mask_image.save('decoded_mask.png')
+# test methods
+def get_segmentation_mask(binary_mask):
+    result = []
+    row_num, col_num = binary_mask.shape
+    print(f"row_num: {row_num}, col_num: {col_num}")
+    for i in range(1, row_num):
+        for j in range(1, col_num):
+            i_ratio = float(i) / row_num
+            j_ratio = float(j) / col_num
+            if binary_mask[i][j] != binary_mask[i - 1][j]:
+                result.append(i_ratio)
+                result.append(j_ratio)
+            elif binary_mask[i][j] != binary_mask[i][j - 1]:
+                result.append(i_ratio)
+                result.append(j_ratio)
+    return result
+
+
+def test_segmentation_mask(binary_mask, result_list):
+    original_image = Image.fromarray(binary_mask * 255, "L").convert('RGB')
+    print(original_image.size)
+    x_list, y_list = [np.asarray(x, dtype=int) for x in (result_list[0:][::2], result_list[1:][::2])]
+    pixels = original_image.load()
+    for x, y in zip(x_list, y_list):
+        pixels[y, x] = (255, 0, 0)
+    original_image.save("output/image.png")
+
+
+def test_segmentation_mask_on_original_file(file_path, result_list):
+    original_image = Image.open(file_path)
+    print(f"original_image.size={original_image.size}")
+    x_list, y_list = [np.asarray(x, dtype=int) for x in (result_list[0:][::2], result_list[1:][::2])]
+    pixels = original_image.load()
+    for x, y in zip(x_list, y_list):
+        pixels[x, y] = (255, 0, 0)
+    original_image.save("output/image.png")

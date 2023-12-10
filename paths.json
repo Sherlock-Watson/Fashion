@@ -1,0 +1,19 @@
+{
+  "old_csv_path": "imaterialist-fashion-2020-fgvc7/train.csv",
+  "label_description": "imaterialist-fashion-2020-fgvc7/label_descriptions.json",
+  "new_csv_path": "dataset/train.csv",
+  "dataset": "dataset",
+  "train_images": "imaterialist-fashion-2020-fgvc7/train",
+  "test_images": "imaterialist-fashion-2020-fgvc7/test",
+  "new_train": "dataset/train",
+  "new_train_images": "dataset/train/images",
+  "new_train_labels": "dataset/train/labels",
+  "new_test_images": "dataset/test/images",
+  "new_test_labels": "dataset/test/labels",
+  "new_val_images": "dataset/val/images",
+  "new_val_labels": "dataset/val/labels",
+  "new_train_csv": "dataset/train/train.csv",
+  "new_test_csv": "dataset/test/train.csv",
+  "new_val_csv":"dataset/val/train.csv",
+  "output": "output"
+}

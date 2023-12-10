@@ -1,3 +1,5 @@
+from collections import Counter
+import pandas as pd
 import numpy as np
 from PIL import Image
 
@@ -53,6 +55,12 @@ def save_label(file_path, mask_rle, shape, class_id):
     content = f"{class_id} {' '.join([str(f) for f in result_list])}\n"
     with open(file_path, mode='a') as file:
         file.write(content)
+
+
+def print_class_id_distribution(dataframe, field):
+    fun_element_counts = sorted(Counter(dataframe[field]).items())
+    for item, num in fun_element_counts:
+        print(f"{item}: {num}")
 
 
 # test methods
